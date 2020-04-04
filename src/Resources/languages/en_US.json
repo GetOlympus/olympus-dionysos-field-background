@@ -1,0 +1,31 @@
+{
+    "background.title": "Background",
+
+    "background.attachment_label": "Attachment:",
+    "background.color_label": "Color:",
+    "background.image_label": "Image:",
+    "background.position_label": "Position:",
+    "background.repeat_label": "Repeat:",
+    "background.size_label": "Size:",
+
+    "background.attachment_fixed": "Fixed",
+    "background.attachment_local": "Scroll locally",
+    "background.attachment_scroll": "Scroll",
+
+    "background.default_inherit": "Inherit",
+    "background.default_initial": "Initial",
+    "background.default_unset": "Not set",
+
+    "background.repeat_no-repeat": "Not repeated",
+    "background.repeat_repeat": "Repeated",
+    "background.repeat_repeat-x": "Repeated horizontally",
+    "background.repeat_repeat-y": "Repeated vertically",
+    "background.repeat_round": "Rounded",
+    "background.repeat_space": "Spaced",
+
+    "background.size_auto": "Auto",
+    "background.size_contain": "Contain",
+    "background.size_cover": "Cover",
+
+    "background.preview_label": "Preview"
+}

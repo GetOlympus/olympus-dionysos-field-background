@@ -1,0 +1,31 @@
+{
+    "background.title": "Image de fond",
+
+    "background.attachment_label": "Attache :",
+    "background.color_label": "Couleur :",
+    "background.image_label": "Image :",
+    "background.position_label": "Position :",
+    "background.repeat_label": "Répétition :",
+    "background.size_label": "Taille :",
+
+    "background.attachment_fixed": "Fixe",
+    "background.attachment_local": "Défile localement",
+    "background.attachment_scroll": "Défile avec la page",
+
+    "background.default_inherit": "Hérité",
+    "background.default_initial": "Intial",
+    "background.default_unset": "Non définit",
+
+    "background.repeat_no-repeat": "Non répété",
+    "background.repeat_repeat": "Répété",
+    "background.repeat_repeat-x": "Répété horizontalement",
+    "background.repeat_repeat-y": "Répété verticalement",
+    "background.repeat_round": "Arrondi",
+    "background.repeat_space": "Espacé",
+
+    "background.size_auto": "Auto",
+    "background.size_contain": "Est contenu",
+    "background.size_cover": "Couverture",
+
+    "background.preview_label": "Prévisualisation :"
+}
