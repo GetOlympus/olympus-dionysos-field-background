@@ -7,6 +7,8 @@
     "background.position_label": "Position:",
     "background.repeat_label": "Repeat:",
     "background.size_label": "Size:",
+    "background.width_label": "Width:",
+    "background.height_label": "Height:",
 
     "background.attachment_fixed": "Fixed",
     "background.attachment_local": "Scroll locally",

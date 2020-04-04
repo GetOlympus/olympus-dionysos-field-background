@@ -29,7 +29,16 @@ Use the following lines to add an `background field` in your **WordPress** admin
 return \GetOlympus\Dionysos\Field\Background::build('my_background_field_id', [
     'title'       => 'Ooh, got ourselves an epic now...',
     'can_upload'  => false,
-    'default'     => [],
+    'default'     => [
+        'background-attachment' => 'initial',
+        'background-color'      => 'transparent',
+        'background-image'      => 'https://vignette.wikia.nocookie.net/despicableme/images/1/1d/Kevin_minions.png/revision/latest/scale-to-width-down/350?cb=20170703052012',
+        'background-position'   => 'left top',
+        'background-repeat'     => 'no-repeat',
+        'background-size'       => 'cover',
+        'height'                => '200px',
+        'width'                 => '100px',
+    ],
     'description' => 'Oh crap, I got knocked!',
     'size'        => 'thumbnail',
 
@@ -72,11 +81,14 @@ Below, a `json_encode()` example to understand how data are stored in Database:
 
 ```json
 {
+  "background-attachment": "initial",
   "background-color": "transparent",
   "background-image": "https://vignette.wikia.nocookie.net/despicableme/images/1/1d/Kevin_minions.png/revision/latest/scale-to-width-down/350?cb=20170703052012",
   "background-position": "left top",
   "background-repeat": "no-repeat",
-  "background-size": "cover"
+  "background-size": "cover",
+  "height": "200px",
+  "width": "100px"
 }
 ```
 
@@ -99,6 +111,9 @@ if (!empty($background)) {
 ```
 
 ## Release History
+
+0.0.3
+- Add height and width
 
 0.0.2
 - Add display
