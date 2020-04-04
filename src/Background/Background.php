@@ -77,6 +77,12 @@ class Background extends Field
                     'type'         => 'full',
                     'slider'       => 'horizontal',
                 ],
+
+                /**
+                 * Media uploader settings
+                 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/js/media.js
+                 */
+                'upload' => [],
             ],
 
             // texts
@@ -88,6 +94,8 @@ class Background extends Field
             't_position_label'    => parent::t('background.position_label', $this->textdomain),
             't_repeat_label'      => parent::t('background.repeat_label', $this->textdomain),
             't_size_label'        => parent::t('background.size_label', $this->textdomain),
+            't_width_label'       => parent::t('background.width_label', $this->textdomain),
+            't_height_label'      => parent::t('background.height_label', $this->textdomain),
             't_editblock_label'   => parent::t('background.editblock_label', $this->textdomain),
 
             't_attachment_fixed'  => parent::t('background.attachment_fixed', $this->textdomain),

@@ -12,6 +12,8 @@
  *          position: '.input-position',            // node element which contains position input
  *          repeat: '.input-repeat',                // node element which contains repeat input
  *          size: '.input-size',                    // node element which contains size input
+ *          width: '.input-width',                  // node element which contains width input
+ *          height: '.input-height',                // node element which contains height input
  *
  *          canvas: '.canvas',                      // node element which contains preview canvas
  *          editbutton: '.edit-button',             // node element which contains edit button
@@ -40,6 +42,8 @@
  *          <input type="text" name="ctm[background-position]" value="" class="input-position" data-style="background-position" />
  *          <select name="ctm[background-repeat]" class="input-repeat" data-style="background-repeat"></select>
  *          <select name="ctm[background-size]" class="input-size" data-style="background-size"></select>
+ *          <input type="text" name="ctm[width]" value="" class="input-width" data-style="width" />
+ *          <input type="text" name="ctm[height]" value="" class="input-height" data-style="height" />
  *          <input type="text" name="ctm[background-color]" value="" class="input-color" data-style="background-color" />
  *
  *          <div class="canvas">
@@ -81,6 +85,8 @@
         _this.$position = _this.$el.find(_this.options.position);
         _this.$repeat = _this.$el.find(_this.options.repeat);
         _this.$size = _this.$el.find(_this.options.size);
+        _this.$width = _this.$el.find(_this.options.width);
+        _this.$height = _this.$el.find(_this.options.height);
         _this.$canvas = _this.$el.find(_this.options.canvas);
 
         // use wpColor
@@ -88,7 +94,7 @@
             change: function (e,ui){
                 _this.update_canvas(_this.$color.attr('data-style'), ui.color.toString());
             },
-            clear: function (e){
+            clear: function (){
                 _this.update_canvas(_this.$color.attr('data-style'), 'transparent');
             }
         }));
@@ -97,7 +103,9 @@
         _this.$el.find(_this.options.editbutton).on('click', $.proxy(_this.edit_image, _this));
 
         // bind other events
-        _this.$position.on('keyup', _this.delay($.proxy(_this.input_keyup, _this), 500));
+        $([_this.$position, _this.$width, _this.$height]).each(function (){
+            $(this).on('keyup', _this.delay($.proxy(_this.input_keyup, _this), 500));
+        });
         $([_this.$attachment, _this.$repeat, _this.$size]).each(function (){
             $(this).on('change', $.proxy(_this.select_change, _this));
         });
@@ -120,6 +128,8 @@
     Background.prototype.$position = null;
     Background.prototype.$repeat = null;
     Background.prototype.$size = null;
+    Background.prototype.$width = null;
+    Background.prototype.$height = null;
 
     /**
      * @type {nodeElement}
@@ -188,14 +198,11 @@
      */
     Background.prototype.input_keyup = function (e){
         e.preventDefault();
-        var _this = this;
-
-        var $input = $(e.target || e.currentTarget),
-            _attr = $input.attr('data-style'),
-            _val = $input.val();
+        var _this = this,
+            $input = $(e.target || e.currentTarget);
 
         // update canvas css
-        _this.update_canvas(_attr, _val);
+        _this.update_canvas($input.attr('data-style'), $input.val());
     };
 
     /**
@@ -204,14 +211,11 @@
      */
     Background.prototype.select_change = function (e){
         e.preventDefault();
-        var _this = this;
-
-        var $select = $(e.target || e.currentTarget),
-            _attr = $select.attr('data-style'),
-            _val = $select.children('option:selected').val();
+        var _this = this,
+            $select = $(e.target || e.currentTarget);
 
         // update canvas css
-        _this.update_canvas(_attr, _val);
+        _this.update_canvas($select.attr('data-style'), $select.children('option:selected').val());
     };
 
     /**
@@ -224,14 +228,16 @@
 
         // check vars
         if (2 === arguments.length && '' !== value) {
+            value = 'background-image' == attribute ? 'url(\'' + value + '\')' : value;
             _this.$canvas.css(attribute, value);
         } else {
             // inputs
-            $([_this.$image, _this.$position]).each(function (){
+            $([_this.$image, _this.$position, _this.$width, _this.$height]).each(function (){
                 var $self = $(this),
                     _attr = $self.attr('data-style'),
-                    _val = 'background-image' == _attr ? 'url('+$self.val()+')' : $self.val();
+                    _val = $self.val();
 
+                _val = 'background-image' == _attr ? 'url(\'' + _val + '\')' : _val;
                 _this.$canvas.css(_attr, _val);
             });
 
@@ -270,7 +276,7 @@
         $parent.find('.upload-url img').attr('src', item[0].url);
 
         // update canvas
-        _this.update_canvas();
+        _this.update_canvas('background-image', item[0].url);
     };
 
     /**
@@ -343,6 +349,8 @@
                 position: '.input-position',
                 repeat: '.input-repeat',
                 size: '.input-size',
+                width: '.input-width',
+                height: '.input-height',
 
                 canvas: '.canvas',
                 editbutton: '.edit-button',

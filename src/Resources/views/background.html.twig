@@ -14,6 +14,8 @@
         {% set position = value is not empty ? value['background-position'] : '' %}
         {% set repeat = value is not empty ? value['background-repeat'] : '' %}
         {% set size = value is not empty ? value['background-size'] : '' %}
+        {% set width = value is not empty ? value.width : '' %}
+        {% set height = value is not empty ? value.height : '' %}
 
         <div class="zeus-cols">
             <div class="zeus-col {{ settings.upload ? 'is-4' : 'is-1' }}">
@@ -61,17 +63,7 @@
                         <input type="text" id="{{ name }}-position" name="{{ name }}[background-position]" value="{{ position }}" class="large-text" data-style="background-position" />
                     </div>
 
-                    <div class="zeus-col is-6">
-                        <label for="{{ name }}-size">{{ t_size_label }}</label>
-                        <select id="{{ name }}-size" name="{{ name }}[background-size]" data-style="background-size">
-                            {% for s in sizes %}
-                                {% set selected = s == size ? ' selected="selected"' : '' %}
-                                <option value="{{ s }}"{{ selected }}>{{ s == 'inherit' or s == 'initial' or s == 'unset' ? _context['t_default_' ~ s] : _context['t_size_' ~ s] }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="zeus-col is-6">
+                    <div class="zeus-col is-4">
                         <label for="{{ name }}-attachment">{{ t_attachment_label }}</label>
                         <select id="{{ name }}-attachment" name="{{ name }}[background-attachment]" data-style="background-attachment">
                             {% for a in attachments %}
@@ -81,7 +73,27 @@
                         </select>
                     </div>
 
-                    <div class="zeus-col is-6">
+                    <div class="zeus-col is-4">
+                        <label for="{{ name }}-width">{{ t_width_label }}</label>
+                        <input type="text" id="{{ name }}-width" name="{{ name }}[width]" value="{{ width }}" class="large-text" data-style="width" />
+                    </div>
+
+                    <div class="zeus-col is-4">
+                        <label for="{{ name }}-height">{{ t_height_label }}</label>
+                        <input type="text" id="{{ name }}-height" name="{{ name }}[height]" value="{{ height }}" class="large-text" data-style="height" />
+                    </div>
+
+                    <div class="zeus-col is-4">
+                        <label for="{{ name }}-size">{{ t_size_label }}</label>
+                        <select id="{{ name }}-size" name="{{ name }}[background-size]" data-style="background-size">
+                            {% for s in sizes %}
+                                {% set selected = s == size ? ' selected="selected"' : '' %}
+                                <option value="{{ s }}"{{ selected }}>{{ s == 'inherit' or s == 'initial' or s == 'unset' ? _context['t_default_' ~ s] : _context['t_size_' ~ s] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="zeus-col is-8">
                         <label for="{{ name }}-color">{{ t_color_label }}</label>
                         <input type="text" id="{{ name }}-color" name="{{ name }}[background-color]" value="{{ color }}" class="large-text" data-style="background-color" />
                     </div>
@@ -90,7 +102,8 @@
 
             <div class="zeus-col">
                 <div class="background-canvas link-to-original">
-                    <label>{{ t_preview_label }}</label>
+                    <span>{{ t_preview_label }}</span>
+                    <div></div>
                 </div>
             </div>
         </div>
@@ -105,8 +118,10 @@
                         position: '#{{ name }}-position',
                         repeat: '#{{ name }}-repeat',
                         size: '#{{ name }}-size',
+                        width: '#{{ name }}-width',
+                        height: '#{{ name }}-height',
 
-                        canvas: '.background-canvas',
+                        canvas: '.background-canvas div',
                         editbutton: '.edit-button',
                         settings: {{ settings|json_encode|replace({"'": "&#39;"})|raw }}
                     });
