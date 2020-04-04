@@ -1,5 +1,6 @@
 # Dionysos Background Field
-> This component is a part of the **Olympus Dionysos fields** for **WordPress**.
+> This component is a part of the **Olympus Dionysos fields** for **WordPress**.  
+> It uses `wpColor` and `wpMedia` WordPress javascript bundle to manage field.
 
 ```sh
 composer require getolympus/olympus-dionysos-field-background
@@ -27,7 +28,10 @@ Use the following lines to add an `background field` in your **WordPress** admin
 ```php
 return \GetOlympus\Dionysos\Field\Background::build('my_background_field_id', [
     'title'       => 'Ooh, got ourselves an epic now...',
+    'can_upload'  => false,
+    'default'     => [],
     'description' => 'Oh crap, I got knocked!',
+    'size'        => 'thumbnail',
 
     /**
      * Settings definition
@@ -42,9 +46,14 @@ return \GetOlympus\Dionysos\Field\Background::build('my_background_field_id', [
 | Variable      | Type    | Default value if not set | Accepted values |
 | ------------- | ------- | ------------------------ | --------------- |
 | `title`       | String  | `'Background'` | *empty* |
+| `can_upload`  | Boolean | `false` | `true` or `false` |
 | `default`     | Array   | *empty* | *empty* |
 | `description` | String  | *empty* | *empty* |
-| `settings`    | Array   | see [Field initialization](#field-initialization) | see [Settings definition](#settings-definition) |
+| `settings`    | Array   | `[]` | see [Settings definition](#settings-definition) |
+| `size`        | String  | `'thumbnail'` | image sizes from `add_image_size()` [WordPress function](https://developer.wordpress.org/reference/functions/add_image_size/) |
+
+Notes:
+* `can_upload` value is defined thanks to `current_user_can('upload_files')` (see [WordPress reference](https://codex.wordpress.org/Function_Reference/current_user_can))
 
 ## Settings definition
 
@@ -52,11 +61,9 @@ The `settings` variable is an array of options defined below:
 
 | Variable      | Type    | Default value if not set | Accepted values |
 | ------------- | ------- | ------------------------ | --------------- |
-| `alttext`     | Boolean | `true` | `true` or `false` |
 | `upload`      | Boolean | `true` | `true` or `false` |
-| `preview`     | Boolean | `true` | `true` or `false` |
-
-* `preview` will be set to `false` if `upload` is set to `false` too
+| `color`       | Array   | `[]` | see [WordPress reference](https://core.trac.wordpress.org/browser/trunk/src/js/_enqueues/lib/color-picker.js) |
+| `upload`      | Array   | `[]` | see [WordPress reference](https://core.trac.wordpress.org/browser/trunk/src/wp-admin/js/media.js) |
 
 ## Retrive data
 
@@ -69,10 +76,7 @@ Below, a `json_encode()` example to understand how data are stored in Database:
   "background-image": "https://vignette.wikia.nocookie.net/despicableme/images/1/1d/Kevin_minions.png/revision/latest/scale-to-width-down/350?cb=20170703052012",
   "background-position": "left top",
   "background-repeat": "no-repeat",
-  "background-size": "cover",
-  "height": "467px",
-  "text-indent": "-99999px",
-  "width": "350px"
+  "background-size": "cover"
 }
 ```
 
@@ -95,6 +99,10 @@ if (!empty($background)) {
 ```
 
 ## Release History
+
+0.0.2
+- Add display
+- Add JS integration
 
 0.0.1
 - Initial commit

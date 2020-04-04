@@ -1,0 +1,121 @@
+{% extends template_path %}
+
+{% block id %}{{ identifier }}{% endblock %}
+{% block label %}<label>{{ title|raw }}</label>{% endblock %}
+
+{% block field %}
+    <div id="{{ identifier }}-background" class="dionysos-field background">
+        <input type="hidden" name="{{ name }}" value="" />
+
+        {% set attachment = value is not empty ? value['background-attachment'] : '' %}
+        {% set color = value is not empty ? value['background-color'] : '' %}
+        {% set id = value is not empty ? value.id : '' %}
+        {% set image = value is not empty ? value['background-image'] : '' %}
+        {% set position = value is not empty ? value['background-position'] : '' %}
+        {% set repeat = value is not empty ? value['background-repeat'] : '' %}
+        {% set size = value is not empty ? value['background-size'] : '' %}
+
+        <div class="zeus-cols">
+            <div class="zeus-col {{ settings.upload ? 'is-4' : 'is-1' }}">
+                <fieldset class="zeus-col is-12 upload-block" data-u="{{ id }}">
+                    {% if settings.upload %}
+                        <input type="hidden" name="{{ name }}[id]" value="{{ id }}" />
+                        <input type="hidden" id="{{ name }}-image" name="{{ name }}[background-image]" value="{{ image }}" data-style="background-image" />
+
+                        <a href="{{ image }}" class="upload-url" target="_blank">
+                            <img src="{{ image }}" alt="" class="image" />
+                        </a>
+                    {% else %}
+                        <input type="hidden" name="{{ name }}[id]" value="" />
+                        <input type="hidden" id="{{ name }}-image" value="{{ default_image }}" data-style="background-image" />
+
+                        <a href="{{ default_image }}" class="upload-url" target="_blank">
+                            <img src="{{ default_image }}" alt="" class="image" />
+                        </a>
+                    {% endif %}
+
+                    {% if settings.upload and can_upload %}
+                        {{ multiple ? t_addblocks_description : t_addblock_description }}
+
+                        <button type="button" class="zeus-btn edit-button has-icon" aria-label="{{ t_editblock_label|raw }}">
+                            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"></path></svg>
+                        </button>
+                    {% endif %}
+                </fieldset>
+            </div>
+
+            <div class="zeus-col">
+                <div class="zeus-cols">
+                    <div class="zeus-col is-6">
+                        <label for="{{ name }}-repeat">{{ t_repeat_label }}</label>
+                        <select id="{{ name }}-repeat" name="{{ name }}[background-repeat]" data-style="background-repeat">
+                            {% for r in repeats %}
+                                {% set selected = r == repeat ? ' selected="selected"' : '' %}
+                                <option value="{{ r }}"{{ selected }}>{{ r == 'inherit' or r == 'initial' or r == 'unset' ? _context['t_default_' ~ r] : _context['t_repeat_' ~ r] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="zeus-col is-6">
+                        <label for="{{ name }}-position">{{ t_position_label }}</label>
+                        <input type="text" id="{{ name }}-position" name="{{ name }}[background-position]" value="{{ position }}" class="large-text" data-style="background-position" />
+                    </div>
+
+                    <div class="zeus-col is-6">
+                        <label for="{{ name }}-size">{{ t_size_label }}</label>
+                        <select id="{{ name }}-size" name="{{ name }}[background-size]" data-style="background-size">
+                            {% for s in sizes %}
+                                {% set selected = s == size ? ' selected="selected"' : '' %}
+                                <option value="{{ s }}"{{ selected }}>{{ s == 'inherit' or s == 'initial' or s == 'unset' ? _context['t_default_' ~ s] : _context['t_size_' ~ s] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="zeus-col is-6">
+                        <label for="{{ name }}-attachment">{{ t_attachment_label }}</label>
+                        <select id="{{ name }}-attachment" name="{{ name }}[background-attachment]" data-style="background-attachment">
+                            {% for a in attachments %}
+                                {% set selected = a == attachment ? ' selected="selected"' : '' %}
+                                <option value="{{ a }}"{{ selected }}>{{ a == 'inherit' or a == 'initial' or a == 'unset' ? _context['t_default_' ~ a] : _context['t_attachment_' ~ a] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="zeus-col is-6">
+                        <label for="{{ name }}-color">{{ t_color_label }}</label>
+                        <input type="text" id="{{ name }}-color" name="{{ name }}[background-color]" value="{{ color }}" class="large-text" data-style="background-color" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="zeus-col">
+                <div class="background-canvas link-to-original">
+                    <label>{{ t_preview_label }}</label>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $("#{{ identifier }}-background").dionysosBackground({
+                        attachment: '#{{ name }}-attachment',
+                        color: '#{{ name }}-color',
+                        image: '#{{ name }}-image',
+                        position: '#{{ name }}-position',
+                        repeat: '#{{ name }}-repeat',
+                        size: '#{{ name }}-size',
+
+                        canvas: '.background-canvas',
+                        editbutton: '.edit-button',
+                        settings: {{ settings|json_encode|replace({"'": "&#39;"})|raw }}
+                    });
+                });
+            })(jQuery);
+        </script>
+    </div>
+{% endblock %}
+
+{% block description %}
+    {{ description|raw }}
+{% endblock %}
